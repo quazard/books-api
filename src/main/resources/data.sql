@@ -1,0 +1,1 @@
+INSERT INTO books (title, published_year, number_of_pages) VALUES ('Harry Potter and the Philosopher''s Stone', '1997', 223);
