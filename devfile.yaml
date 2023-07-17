@@ -27,9 +27,6 @@ components:
       env:
         - name: GRADLE_USER_HOME
           value: /home/gradle/.gradle
-      volumes:
-        - name: gradle
-          containerPath: /home/gradle/.gradle
       endpoints:
         - exposure: public
           name: 8080-tcp
