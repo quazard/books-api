@@ -35,7 +35,7 @@ components:
     name: codebase
   - name: gradle
     volume:
-      size: 256M
+      size: 1G
 commands:
   - exec:
       commandLine: gradle clean build
