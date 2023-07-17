@@ -1,0 +1,50 @@
+schemaVersion: 2.2.0
+metadata:
+  name: books-api
+  namespace: quazard-dev
+  projectType: springboot
+  language: Java
+attributes:
+  controller.devfile.io/devworkspace-config:
+    name: devworkspace-config
+    namespace: crw
+  controller.devfile.io/scc: container-build
+  controller.devfile.io/storage-type: common
+projects:
+  - git:
+      checkoutFrom:
+        revision: main
+      remotes:
+        origin: https://github.com/quazard/books-api.git
+    name: books-api
+components:
+  - attributes:
+      controller.devfile.io/merge-contribution: true
+    container:
+      image: quay.io/devfile/universal-developer-image:ubi8-latest
+      memoryLimit: 3Gi
+      sourceMapping: /projects
+      env:
+        - name: GRADLE_USER_HOME
+          value: /home/gradle/.gradle
+      volumes:
+        - name: gradle
+          containerPath: /home/gradle/.gradle
+      endpoints:
+        - exposure: public
+          name: 8080-tcp
+          protocol: http
+          targetPort: 8080
+    name: codebase
+  - name: gradle
+    volume:
+      size: 256M
+commands:
+  - exec:
+      commandLine: gradle clean build
+      component: codebase
+      group:
+        isDefault: true
+        kind: build
+      workingDir: ${PROJECT_SOURCE}
+    id: gradle-build
